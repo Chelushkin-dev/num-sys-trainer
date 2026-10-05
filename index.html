@@ -1,0 +1,213 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Системы счисления</title>
+<link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+<!-- Верхняя панель -->
+<header class="topbar">
+  <button class="burger" id="burgerBtn" aria-label="Меню">
+    <span></span><span></span><span></span>
+  </button>
+  <div class="topbar-title" id="topbarTitle">Системы счисления</div>
+</header>
+
+<!-- Боковое меню -->
+<nav class="drawer" id="drawer">
+  <div class="drawer-header">Разделы</div>
+  <button class="drawer-item active" data-view="trainer">Тренажёр</button>
+  <button class="drawer-item" data-view="converter">Конвертер</button>
+  <button class="drawer-item" data-view="diapasons">Диапазоны</button>
+  <button class="drawer-item" data-view="help">Справка</button>
+</nav>
+<div class="overlay" id="drawerOverlay"></div>
+
+<main class="container">
+
+  <!-- ===== ТРЕНАЖЁР ===== -->
+  <section class="view active" id="view-trainer">
+    <div class="card settings">
+      <div class="settings-row">
+        <label class="settings-label">Диапазон чисел (в 10-й системе)</label>
+        <div class="range-inputs">
+          <input type="number" id="rangeMin" value="1" min="0" max="1000000">
+          <span class="range-separator">—</span>
+          <input type="number" id="rangeMax" value="255" min="0" max="1000000">
+        </div>
+      </div>
+      <div class="settings-row">
+        <label class="settings-label">Исходная система</label>
+        <div class="base-toggles" id="baseToggles">
+          <div class="base-toggle" data-base="2">2</div>
+          <div class="base-toggle" data-base="8">8</div>
+          <div class="base-toggle" data-base="10">10</div>
+          <div class="base-toggle" data-base="16">16</div>
+        </div>
+      </div>
+      <div class="settings-buttons">
+        <button class="apply-btn" id="applyBtn">Применить</button>
+      </div>
+    </div>
+
+    <div class="random-block">
+      <span class="random-label" id="sourceLabel">Дано</span>
+      <div class="random-value" id="randomNumberDisplay">—</div>
+    </div>
+
+    <div class="bases-grid" id="basesGrid"></div>
+    <button class="new-btn" id="newTaskBtn">Новое число</button>
+    <div class="footer-note">Введите ответ и нажмите «Проверить»</div>
+  </section>
+
+  <!-- ===== КОНВЕРТЕР ===== -->
+  <section class="view" id="view-converter">
+    <div class="card">
+      <div class="subhead">Введите число в любое поле — остальные обновятся автоматически</div>
+      <div class="converter-fields">
+        <div class="conv-field">
+          <span class="conv-label">Двоичная <span class="conv-label-badge">2</span></span>
+          <input type="text" id="convBin" data-base="2" placeholder="0 и 1" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="conv-field">
+          <span class="conv-label">Восьмеричная <span class="conv-label-badge">8</span></span>
+          <input type="text" id="convOct" data-base="8" placeholder="0 – 7" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="conv-field">
+          <span class="conv-label">Десятичная <span class="conv-label-badge">10</span></span>
+          <input type="text" id="convDec" data-base="10" placeholder="0 – 9" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+        <div class="conv-field">
+          <span class="conv-label">Шестнадцатеричная <span class="conv-label-badge">16</span></span>
+          <input type="text" id="convHex" data-base="16" placeholder="0 – 9, A – F" autocomplete="off" autocapitalize="off" spellcheck="false">
+        </div>
+      </div>
+      <div class="converter-actions">
+        <button class="conv-action-btn clear-btn" id="clearConverterBtn">Очистить</button>
+        <button class="conv-action-btn copy-btn" id="copyConverterBtn">Копировать</button>
+      </div>
+      <div class="copy-status" id="copyStatus"></div>
+    </div>
+  </section>
+
+  <!-- ===== ДИАПАЗОНЫ ===== -->
+  <section class="view" id="view-diapasons">
+    <div class="card settings">
+      <div class="settings-row">
+        <label class="settings-label">Тип неравенства</label>
+        <div class="base-toggles" id="ineqToggles">
+          <div class="base-toggle active" data-ineq="strict">Строгое</div>
+          <div class="base-toggle" data-ineq="half">Одно ≥</div>
+          <div class="base-toggle" data-ineq="both">Два ≥</div>
+        </div>
+      </div>
+      <div class="settings-row">
+        <label class="settings-label">Системы в задании</label>
+        <div class="checkboxes" id="diapasonSystems">
+          <label class="chk"><input type="checkbox" data-base="2" checked> Bin (2)</label>
+          <label class="chk"><input type="checkbox" data-base="8" checked> Oct (8)</label>
+          <label class="chk"><input type="checkbox" data-base="10" checked> Dec (10)</label>
+          <label class="chk"><input type="checkbox" data-base="16" checked> Hex (16)</label>
+        </div>
+      </div>
+      <div class="settings-row">
+        <label class="settings-label">Границы (десятичные)</label>
+        <div class="range-inputs">
+          <input type="number" id="diapMin" value="0" min="0">
+          <span class="range-separator">—</span>
+          <input type="number" id="diapMax" value="999" min="0">
+        </div>
+      </div>
+      <button class="apply-btn" id="diapasonGenerateBtn">Сгенерировать задачу</button>
+    </div>
+
+    <div class="random-block">
+      <div class="random-value" id="diapasonTask">—</div>
+    </div>
+
+    <div class="input-group" style="margin-bottom:12px">
+      <input type="text" id="diapasonAnswer" placeholder="Введите количество X (в 10-й системе)" autocomplete="off">
+      <button class="check-btn" id="diapasonCheckBtn">Проверить</button>
+    </div>
+    <div class="feedback" id="diapasonFeedback"></div>
+  </section>
+
+  <!-- ===== СПРАВКА ===== -->
+  <section class="view" id="view-help">
+    <div class="card">
+      <h2 class="help-h2">Таблица триад (для перевода 8 ⇄ 2)</h2>
+      <table class="help-table">
+        <tr><th>Восьм.</th><th>Двоич.</th><th></th><th>Восьм.</th><th>Двоич.</th></tr>
+        <tr><td>0</td><td>000</td><td></td><td>4</td><td>100</td></tr>
+        <tr><td>1</td><td>001</td><td></td><td>5</td><td>101</td></tr>
+        <tr><td>2</td><td>010</td><td></td><td>6</td><td>110</td></tr>
+        <tr><td>3</td><td>011</td><td></td><td>7</td><td>111</td></tr>
+      </table>
+
+      <h2 class="help-h2">Таблица тетрад (для перевода 16 ⇄ 2)</h2>
+      <table class="help-table">
+        <tr><th>Hex</th><th>Двоич.</th><th></th><th>Hex</th><th>Двоич.</th></tr>
+        <tr><td>0</td><td>0000</td><td></td><td>8</td><td>1000</td></tr>
+        <tr><td>1</td><td>0001</td><td></td><td>9</td><td>1001</td></tr>
+        <tr><td>2</td><td>0010</td><td></td><td>A</td><td>1010</td></tr>
+        <tr><td>3</td><td>0011</td><td></td><td>B</td><td>1011</td></tr>
+        <tr><td>4</td><td>0100</td><td></td><td>C</td><td>1100</td></tr>
+        <tr><td>5</td><td>0101</td><td></td><td>D</td><td>1101</td></tr>
+        <tr><td>6</td><td>0110</td><td></td><td>E</td><td>1110</td></tr>
+        <tr><td>7</td><td>0111</td><td></td><td>F</td><td>1111</td></tr>
+      </table>
+
+      <h2 class="help-h2">Правила перевода</h2>
+
+      <h3 class="help-h3">Из любой системы в 10-ю</h3>
+      <p>Расписываем число по разрядам: каждая цифра умножается на основание в степени её позиции (считая справа налево, начиная с 0).</p>
+      <p>Пример: <code>1011₂ = 1·2³ + 0·2² + 1·2¹ + 1·2⁰ = 8 + 0 + 2 + 1 = 11₁₀</code></p>
+      <p>Пример: <code>2F₁₆ = 2·16¹ + 15·16⁰ = 32 + 15 = 47₁₀</code></p>
+
+      <h3 class="help-h3">Из 10-й в любую</h3>
+      <p>Делим число на основание, записываем остаток. Продолжаем, пока не получим 0. Затем выписываем остатки <b>снизу вверх</b>.</p>
+      <p><b>Пример: 13₁₀ → 2-я</b></p>
+      <div class="column-example">
+        <div class="division">
+          <div class="row"><span class="num">13</span><span class="div">÷ 2</span><span class="arrow">=</span><span class="num">6</span><span class="rem">ост. 1</span></div>
+          <div class="row"><span class="num">6</span><span class="div">÷ 2</span><span class="arrow">=</span><span class="num">3</span><span class="rem">ост. 0</span></div>
+          <div class="row"><span class="num">3</span><span class="div">÷ 2</span><span class="arrow">=</span><span class="num">1</span><span class="rem">ост. 1</span></div>
+          <div class="row"><span class="num">1</span><span class="div">÷ 2</span><span class="arrow">=</span><span class="num">0</span><span class="rem">ост. 1</span></div>
+        </div>
+        <div>
+          <p>Остатки снизу вверх: <span class="result-bits">1 1 0 1</span></p>
+          <p>Значит, <code>13₁₀ = 1101₂</code>.</p>
+          <p>Проверка: <code>1·8 + 1·4 + 0·2 + 1·1 = 13</code></p>
+        </div>
+      </div>
+
+      <p><b>Пример: 45₁₀ → 16-я</b></p>
+      <div class="column-example">
+        <div class="division">
+          <div class="row"><span class="num">45</span><span class="div">÷ 16</span><span class="arrow">=</span><span class="num">2</span><span class="rem">ост. 13 → D</span></div>
+          <div class="row"><span class="num">2</span><span class="div">÷ 16</span><span class="arrow">=</span><span class="num">0</span><span class="rem">ост. 2</span></div>
+        </div>
+        <div>
+          <p>Остатки снизу вверх: <span class="result-bits">2 D</span></p>
+          <p>Значит, <code>45₁₀ = 2D₁₆</code>.</p>
+          <p>Проверка: <code>2·16 + 13 = 45</code></p>
+        </div>
+      </div>
+
+      <h3 class="help-h3">Через двоичную (для 8 и 16)</h3>
+      <p><b>8 ⇄ 2:</b> каждая восьмеричная цифра — это ровно 3 бита (триада).<br>
+      Пример: <code>57₈ = 101 111₂ = 101111₂</code></p>
+      <p><b>16 ⇄ 2:</b> каждая шестнадцатеричная цифра — ровно 4 бита (тетрада).<br>
+      Пример: <code>2F₁₆ = 0010 1111₂ = 101111₂</code></p>
+      <p><b>8 ⇄ 16:</b> переводите через двоичную: сначала в 2-ю, затем группируйте по 3 или по 4 бита.</p>
+    </div>
+  </section>
+
+</main>
+
+<script src="app.js"></script>
+</body>
+</html>
